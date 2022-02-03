@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 
 
 public class Player : MonoBehaviour
 {
     public bool _isGrounded;
-    public float _maxSpeed;
+    public float _maxSpeed=10f;
     public float _normalSpeed = 0f;
-    private bool _flipRight = true;
+    public static bool _flipRight = true;
     private Animator animator;
-    
+    public GameObject pauseMenuUI;
+    private Vector3 respawnPoint;
+    public GameObject fallDetector;
+
+    //SceneManager sceneManager;
 
     private void Start()
     {
-        _maxSpeed= 0f;
+        //_maxSpeed= 0f;
+        respawnPoint = transform.position;
         animator = GetComponent<Animator>();
     }
     private void OnCollisionEnter2D()
@@ -26,15 +31,22 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        GetComponent<Rigidbody2D>().velocity = new Vector2(_maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+        float move = Input.GetAxis("Horizontal");
+        GetComponent<Rigidbody2D>().velocity = new Vector2(move * _maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-        if (_maxSpeed != 0)
+        if (Input.GetKeyUp(KeyCode.Space) && _isGrounded)
         {
-            if (_maxSpeed > 0 && !_flipRight)
+            _isGrounded = false;
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 500));
+        }
+
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            if (move > 0 && !_flipRight)
             {
                 Flip();
             }
-            if (_maxSpeed < 0 && _flipRight)
+            if (move < 0 && _flipRight)
             {
                 Flip();
             };
@@ -44,9 +56,47 @@ public class Player : MonoBehaviour
         {
             animator.SetInteger("State", 0);
         }
+
+        //GetComponent<Rigidbody2D>().velocity = new Vector2(_maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+
+        //if (_maxSpeed != 0)
+        //{
+        //    if (_maxSpeed > 0 && !_flipRight)
+        //    {
+        //        Flip();
+        //    }
+        //    if (_maxSpeed < 0 && _flipRight)
+        //    {
+        //        Flip();
+        //    };
+        //    animator.SetInteger("State", 1);
+        //}
+        //else
+        //{
+        //    animator.SetInteger("State", 0);
+        //}
+
+        fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
 
-    public void OnLeftButtonDown()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "FallDetector")
+        {
+            transform.position = respawnPoint;
+            Life.health -= 1;
+        }
+        else if (collision.tag == "CheackPoint")
+        {
+            respawnPoint = transform.position;
+        }
+        if (Life.health == 0)
+        {
+            pauseMenuUI.SetActive(true);
+            Time.timeScale = 0f;
+        }
+    }
+        public void OnLeftButtonDown()
     {
         if (_maxSpeed >= 0)
         {
@@ -71,11 +121,12 @@ public class Player : MonoBehaviour
     {
         _maxSpeed = 0;
     }
-    private void Flip()
+    public void Flip()
     {
         _flipRight = !_flipRight;
         Vector2 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-}
+   
+    }
