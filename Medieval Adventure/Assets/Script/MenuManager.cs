@@ -7,10 +7,20 @@ public class MenuManager : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        SceneManager.LoadScene(4);
+        Time.timeScale = 1f;
+    }
+    public void Settings()
+    {
+        SceneManager.LoadScene(3);
         Time.timeScale = 1f;
     }
 
+    public void Scoreboard()
+    {
+        SceneManager.LoadScene(2);
+        Time.timeScale = 1f;
+    }
     public void LevelSelect()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

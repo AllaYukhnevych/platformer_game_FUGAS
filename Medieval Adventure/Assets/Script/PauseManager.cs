@@ -21,6 +21,7 @@ public class PauseManager : MonoBehaviour
     }
     public void ButtonRestart()
     {
+        PlayerPrefs.SetInt("PositionPlayer", 0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
     }

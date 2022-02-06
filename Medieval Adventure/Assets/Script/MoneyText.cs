@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class MoneyText : MonoBehaviour
@@ -9,10 +7,8 @@ public class MoneyText : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
-        Coin = PlayerPrefs.GetInt("coins", Coin);
     }
 
-    // Update is called once per frame
     void Update()
     {
         text.text = Coin.ToString();

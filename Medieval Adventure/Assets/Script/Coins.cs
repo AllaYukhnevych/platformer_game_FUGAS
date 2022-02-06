@@ -9,7 +9,6 @@ public class Coins : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             MoneyText.Coin += 1;
-            PlayerPrefs.SetInt("coins", MoneyText.Coin);
             Destroy(gameObject);
         }
     }
