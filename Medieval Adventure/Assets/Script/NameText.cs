@@ -9,6 +9,6 @@ public class NameText : MonoBehaviour
     private void Start()
     {
         nameText = GetComponent<Text>();
-        nameText.text = "Player " + InputHandler.InName;      
+        nameText.text = "Player " + GameHandler.InName;      
     }
  }

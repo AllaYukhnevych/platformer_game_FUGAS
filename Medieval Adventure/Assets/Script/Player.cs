@@ -14,12 +14,15 @@ public class Player : MonoBehaviour
     public GameObject pauseMenuUI;
     private Vector3 respawnPoint;
     public GameObject fallDetector;
-
+    List<InputEntry> entries = new List<InputEntry>();
+    string filename = "results.json";
+    int maxCount=10;
     private void Start()
     {
-        _maxSpeed= 0f;
+        //_maxSpeed= 0f;
         respawnPoint = transform.position;
         animator = GetComponent<Animator>();
+        entries = FileHandler.ReadListFromJSON<InputEntry>(filename);
     }
     private void OnCollisionEnter2D()
     {
@@ -29,41 +32,22 @@ public class Player : MonoBehaviour
     
     void Update()
     {
-        //float move = Input.GetAxis("Horizontal");
-        //GetComponent<Rigidbody2D>().velocity = new Vector2(move * _maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+        float move = Input.GetAxis("Horizontal");
+        GetComponent<Rigidbody2D>().velocity = new Vector2(move * _maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
-        //if (Input.GetKeyUp(KeyCode.Space) && _isGrounded)
-        //{
-        //    _isGrounded = false;
-        //    GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 500));
-        //}
-
-        //if (Input.GetAxis("Horizontal") != 0)
-        //{
-        //    if (move > 0 && !_flipRight)
-        //    {
-        //        Flip();
-        //    }
-        //    if (move < 0 && _flipRight)
-        //    {
-        //        Flip();
-        //    };
-        //    animator.SetInteger("State", 1);
-        //}
-        //else
-        //{
-        //    animator.SetInteger("State", 0);
-        //}
-
-        GetComponent<Rigidbody2D>().velocity = new Vector2(_maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
-
-        if (_maxSpeed != 0)
+        if (Input.GetKeyUp(KeyCode.Space) && _isGrounded)
         {
-            if (_maxSpeed > 0 && !_flipRight)
+            _isGrounded = false;
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 500));
+        }
+
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            if (move > 0 && !_flipRight)
             {
                 Flip();
             }
-            if (_maxSpeed < 0 && _flipRight)
+            if (move < 0 && _flipRight)
             {
                 Flip();
             };
@@ -74,7 +58,26 @@ public class Player : MonoBehaviour
             animator.SetInteger("State", 0);
         }
 
-        fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
+        //GetComponent<Rigidbody2D>().velocity = new Vector2(_maxSpeed, GetComponent<Rigidbody2D>().velocity.y);
+
+        //if (_maxSpeed != 0)
+        //{
+        //    if (_maxSpeed > 0 && !_flipRight)
+        //    {
+        //        Flip();
+        //    }
+        //    if (_maxSpeed < 0 && _flipRight)
+        //    {
+        //        Flip();
+        //    };
+        //    animator.SetInteger("State", 1);
+        //}
+        //else
+        //{
+        //    animator.SetInteger("State", 0);
+        //}
+
+        //fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -93,8 +96,37 @@ public class Player : MonoBehaviour
             pauseMenuUI.SetActive(true);
             Time.timeScale = 0f;
         }
+        else if (collision.tag == "EndGame")
+        {
+            AddHighscoreIfPossible(new InputEntry(GameHandler.InName, MoneyText.Coin));
+        }
     }
-        public void OnLeftButtonDown()
+    void SaveHighscore()
+    {
+        FileHandler.SaveToJSON<InputEntry>(entries, filename);
+    }
+    public void AddHighscoreIfPossible(InputEntry element)
+    {
+        for (int i = 0; i < maxCount; i++)
+        {
+            if (i >= entries.Count || element.points > entries[i].points)
+            {
+                // add new high score
+                entries.Insert(i, element);
+
+                while (entries.Count > maxCount)
+                {
+                    entries.RemoveAt(maxCount);
+                }
+
+                SaveHighscore();
+                                
+                break;
+            }
+        }
+    }
+
+    public void OnLeftButtonDown()
     {
         if (_maxSpeed >= 0)
         {
