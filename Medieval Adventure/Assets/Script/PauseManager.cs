@@ -7,6 +7,7 @@ public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public static bool GameIsPause = false;
+    public static int numberScen;
    
     public void StartPause()
     {
@@ -28,7 +29,9 @@ public class PauseManager : MonoBehaviour
 
     public void ButtonMenu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Menu");
+        PlayerPrefs.SetInt("PositionPlayer", 0);
+        numberScen =  SceneManager.GetActiveScene().buildIndex;
     }
 
     void Pause()

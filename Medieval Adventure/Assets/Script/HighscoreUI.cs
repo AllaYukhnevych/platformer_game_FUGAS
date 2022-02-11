@@ -23,7 +23,7 @@ public class HighscoreUI : MonoBehaviour
        
     public void ClosePanel()
     {
-        SceneManager.LoadScene(0); ;
+        SceneManager.LoadScene("Menu"); ;
     }
 
     private void UpdateUI(List<HighscoreElement> list)

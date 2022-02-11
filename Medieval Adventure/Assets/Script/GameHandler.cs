@@ -9,17 +9,16 @@ public class GameHandler : MonoBehaviour
      public void AddPlayer()
     {
         InName = nameInput.text;
-        Debug.Log(InName);
     }
 
     public void NextMenu()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Menu");
         Time.timeScale = 1f;
     }
     public void Exit()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("Menu");
         Time.timeScale = 1f;
     }
 }

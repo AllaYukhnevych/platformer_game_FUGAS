@@ -12,17 +12,19 @@ public class Player : MonoBehaviour
     public static bool _flipRight = true;
     private Animator animator;
     public GameObject pauseMenuUI;
+    public GameObject gameOver;
     private Vector3 respawnPoint;
     public GameObject fallDetector;
-    List<InputEntry> entries = new List<InputEntry>();
-    string filename = "results.json";
-    int maxCount=10;
+
+    //List<InputEntry> entries = new List<InputEntry>();
+    //string filename = "results.json";
+    //int maxCount = 10;
     private void Start()
     {
         //_maxSpeed= 0f;
         respawnPoint = transform.position;
         animator = GetComponent<Animator>();
-        entries = FileHandler.ReadListFromJSON<InputEntry>(filename);
+        //entries = FileHandler.ReadListFromJSON<InputEntry>(filename);
     }
     private void OnCollisionEnter2D()
     {
@@ -38,7 +40,7 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space) && _isGrounded)
         {
             _isGrounded = false;
-            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 500));
+            GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 400));
         }
 
         if (Input.GetAxis("Horizontal") != 0)
@@ -94,37 +96,39 @@ public class Player : MonoBehaviour
         if (Life.health == 0)
         {
             pauseMenuUI.SetActive(true);
+            gameOver.SetActive(true);
             Time.timeScale = 0f;
         }
         else if (collision.tag == "EndGame")
         {
-            AddHighscoreIfPossible(new InputEntry(GameHandler.InName, MoneyText.Coin));
+            //AddHighscoreIfPossible(new InputEntry(GameHandler.InName, MoneyText.Coin));
+            //MoneyText.Coin = 0;
         }
     }
-    void SaveHighscore()
-    {
-        FileHandler.SaveToJSON<InputEntry>(entries, filename);
-    }
-    public void AddHighscoreIfPossible(InputEntry element)
-    {
-        for (int i = 0; i < maxCount; i++)
-        {
-            if (i >= entries.Count || element.points > entries[i].points)
-            {
-                // add new high score
-                entries.Insert(i, element);
+    //void SaveHighscore()
+    //{
+    //    FileHandler.SaveToJSON<InputEntry>(entries, filename);
+    //}
+    //public void AddHighscoreIfPossible(InputEntry element)
+    //{
+    //    for (int i = 0; i < maxCount; i++)
+    //    {
+    //        if (i >= entries.Count || element.points > entries[i].points)
+    //        {
+    //            // add new high score
+    //            entries.Insert(i, element);
 
-                while (entries.Count > maxCount)
-                {
-                    entries.RemoveAt(maxCount);
-                }
+    //            while (entries.Count > maxCount)
+    //            {
+    //                entries.RemoveAt(maxCount);
+    //            }
 
-                SaveHighscore();
+    //            SaveHighscore();
                                 
-                break;
-            }
-        }
-    }
+    //            break;
+    //        }
+    //    }
+    //}
 
     public void OnLeftButtonDown()
     {

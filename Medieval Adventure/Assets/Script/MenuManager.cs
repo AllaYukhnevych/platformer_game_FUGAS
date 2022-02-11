@@ -7,23 +7,22 @@ public class MenuManager : MonoBehaviour
 {
     public void Play()
     {
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(PauseManager.numberScen);
         Time.timeScale = 1f;
     }
     public void Settings()
     {
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Settings");
         Time.timeScale = 1f;
     }
 
-    public void Scoreboard()
+    public void Results()
     {
-        SceneManager.LoadScene(2);
-        Time.timeScale = 1f;
+        SceneManager.LoadScene("Results");
     }
     public void LevelSelect()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene("LevelSelect");
     }
 
     public void ButtonExit()

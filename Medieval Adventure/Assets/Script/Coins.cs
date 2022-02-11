@@ -1,23 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Coins : MonoBehaviour
 {
-
-    public AudioSource audioSource;
+    
+    private GameObject player;
+    public AudioClip audioClip;
+    private AudioSource audioSource;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        audioSource = player.GetComponent<AudioSource>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             MoneyText.Coin += 1;
-            audioSource.Play();
-            Destroy(gameObject,1);
+            audioSource.PlayOneShot(audioClip);
+            Destroy(gameObject);
         }
     }
 }
