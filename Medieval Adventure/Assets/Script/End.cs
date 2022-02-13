@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
-
 public class End : MonoBehaviour
 {
     List<InputEntry> entries = new List<InputEntry>();
