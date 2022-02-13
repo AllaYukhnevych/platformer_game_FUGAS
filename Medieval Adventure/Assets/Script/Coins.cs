@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class Coins : MonoBehaviour
 {
-    
     private GameObject player;
     public AudioClip audioClip;
     private AudioSource audioSource;
