@@ -7,7 +7,7 @@ public class PauseManager : MonoBehaviour
 {
     public GameObject pauseMenuUI;
     public static bool GameIsPause = false;
-    public static int numberScen;
+    public static int numberScen=4;
    
     public void StartPause()
     {

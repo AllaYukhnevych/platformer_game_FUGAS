@@ -5,7 +5,7 @@ using UnityEngine;
 public class Main_Camera : MonoBehaviour
 {
     public float dumping = 1.5f;
-    public Vector2 offset = new Vector2(2f, 0f);
+    public Vector2 offset = new Vector2(1f, 0f);
     public bool isLeft;
     private Transform player;
     private int LastX;

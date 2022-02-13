@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+
 public class MoneyText : MonoBehaviour
 {
     public static int Coin;
@@ -8,7 +9,6 @@ public class MoneyText : MonoBehaviour
     {
         text = GetComponent<Text>();
     }
-
     void Update()
     {
         text.text = Coin.ToString();

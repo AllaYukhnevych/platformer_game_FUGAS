@@ -31,11 +31,4 @@ public class HighscoreHandler : MonoBehaviour
         }
     }
 
-    //private void SaveHighscore()
-    //{
-    //   FileHandler.SaveToJSON<HighscoreElement>(highscoreList, filename);
-    //}
-
-   
-
 }

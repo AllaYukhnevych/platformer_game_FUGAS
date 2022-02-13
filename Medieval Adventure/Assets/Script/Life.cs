@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Life : MonoBehaviour
 {
-    public static int health;
+    public static int health=3;
     public GameObject Heart1, Heart2, Heart3;
+
     void Start()
     {
         Heart1.SetActive(true);
         Heart2.SetActive(true);
         Heart3.SetActive(true);
-        health = 3;
     }
     void Update()
     {
